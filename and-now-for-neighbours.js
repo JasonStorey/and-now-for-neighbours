@@ -20,8 +20,13 @@ function addCuePoint(player, seconds, onCuePoint) {
 }
 
 function getVideoId() {
-    var vidId = 'dSXhZItSVpI',
+    var vidId = 'NAFTDJH5vSc',
         vidUrl = getVidUrl();
+
+    if(!vidUrl) {
+        vidUrl = prompt('Enter YouTube URL', 'https://www.youtube.com/watch?v=' + vidId);
+        window.location.search = 'vidUrl=' + encodeURIComponent(vidUrl);
+    }
 
     return extractVideoId(vidUrl) || vidId;
 }
@@ -30,11 +35,12 @@ function extractVideoId(url) {
     var video_id,
         ampersandPosition;
 
-    if(!url) {
-        return;
-    }
+    if(!url) { return; }
 
     video_id = url.split('v=')[1];
+
+    if(!video_id) { return; }
+
     ampersandPosition = video_id.indexOf('&');
 
     if(ampersandPosition != -1) {
