@@ -24,14 +24,16 @@ function onYouTubeIframeAPIReady() {
         elementId: 'prePlayer',
         videoId: 'dSXhZItSVpI',
         onReady: function(event) {
-            addCuePoint(event.target, 5, function() {
+            var duration = event.target.getDuration();
+
+            addCuePoint(event.target, duration - 3, function() {
                 event.target.getIframe().className += " invisible";
                 event.target.setVolume(0);
 
                 postPlayer.playVideo();
                 postPlayer.setVolume(100);
             });
-            addCuePoint(event.target, 7, function() {
+            addCuePoint(event.target, duration - 1, function() {
                 event.target.stopVideo();
                 event.target.getIframe().className += " hidden";
             });
