@@ -19,10 +19,57 @@ function addCuePoint(player, seconds, onCuePoint) {
     }
 }
 
+function getVideoId() {
+    var vidId = 'dSXhZItSVpI',
+        vidUrl = getVidUrl();
+
+    return extractVideoId(vidUrl) || vidId;
+}
+
+function extractVideoId(url) {
+    var video_id,
+        ampersandPosition;
+
+    if(!url) {
+        return;
+    }
+
+    video_id = url.split('v=')[1];
+    ampersandPosition = video_id.indexOf('&');
+
+    if(ampersandPosition != -1) {
+        video_id = video_id.substring(0, ampersandPosition);
+    }
+
+    return video_id;
+}
+
+function getVidUrl() {
+    var query_string = {};
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        // If first entry with this name
+        if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = pair[1];
+            // If second entry with this name
+        } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [ query_string[pair[0]], pair[1] ];
+            query_string[pair[0]] = arr;
+            // If third or later entry with this name
+        } else {
+            query_string[pair[0]].push(pair[1]);
+        }
+    }
+
+    return query_string['vidUrl'] ? decodeURIComponent(query_string['vidUrl']) : undefined;
+}
+
 function onYouTubeIframeAPIReady() {
     prePlayer = createYTPlayer({
         elementId: 'prePlayer',
-        videoId: 'dSXhZItSVpI',
+        videoId: getVideoId(),
         onReady: function(event) {
             var duration = event.target.getDuration();
 
