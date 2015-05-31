@@ -28,25 +28,22 @@ function onYouTubeIframeAPIReady() {
 
             addCuePoint(event.target, duration - 3, function() {
                 event.target.getIframe().className += " invisible";
-                event.target.setVolume(0);
-
                 postPlayer.playVideo();
-                postPlayer.setVolume(100);
             });
+
             addCuePoint(event.target, duration - 1, function() {
                 event.target.stopVideo();
                 event.target.getIframe().className += " hidden";
             });
+
             event.target.playVideo();
         }
     });
 
     postPlayer = createYTPlayer({
         elementId: 'postPlayer',
-        videoId: 'zJLGEE-VeJo',
-        start: 26,
+        videoId: 'Ozcf6l-kIfg',
         onReady: function(event) {
-            event.target.setVolume(0);
             event.target.playVideo();
             event.target.pauseVideo();
         }
@@ -66,8 +63,7 @@ function createYTPlayer(options) {
         videoId: options.videoId,
         playerVars: {
             'autoplay': 0,
-            'autohide': 1,
-            'start': options.start || 0
+            'autohide': 1
         },
         events: {
             'onReady': options.onReady,
